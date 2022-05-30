@@ -29,23 +29,26 @@
   <version>${my.version}</version>
   <properties>
     <my.version>1.0</my.version>
+    <java.version>11</java.version>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.drill.exec</groupId>
       <artifactId>drill-java-exec</artifactId>
-      <version>1.16.0-SNAPSHOT</version>
+      <version>1.20.0</version>
     </dependency>
     <dependency>
       <groupId>com.maxmind.geoip2</groupId>
       <artifactId>geoip2</artifactId>
-      <version>2.12.0</version>
+      <version>3.0.1</version>
     </dependency>
     <dependency>
       <groupId>com.maxmind.db</groupId>
       <artifactId>maxmind-db</artifactId>
-      <version>1.2.2</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <groupId>com.esri.geometry</groupId>

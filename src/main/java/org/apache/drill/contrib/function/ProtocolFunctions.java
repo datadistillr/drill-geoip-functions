@@ -36,7 +36,9 @@ public class ProtocolFunctions {
 
   /* This function takes a port number and protocol and returns the associated service name, and Unknown if there is an error */
 
-  @FunctionTemplate(name = "get_service_name", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(name = "get_service_name",
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
 
   public static class ServiceNameLookup implements DrillSimpleFunc {
     @Param
@@ -86,7 +88,9 @@ public class ProtocolFunctions {
    * @Param portNumber
    * @Param protocol (Should be TCP or UDP)
    */
-  @FunctionTemplate(name = "get_service_name", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(name = "get_service_name",
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
 
   public static class ServiceNameLookupString implements DrillSimpleFunc {
     @Param
@@ -135,7 +139,9 @@ public class ProtocolFunctions {
 
   /* This function takes a port number and protocol and returns the associated service name, and "Unknown if there is an error */
 
-  @FunctionTemplate(name = "get_short_service_name", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(name = "get_short_service_name",
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
 
   public static class ShortServiceNameLookup implements DrillSimpleFunc {
     @Param
@@ -181,7 +187,9 @@ public class ProtocolFunctions {
 
   /* This function takes a port number and protocol and returns the associated service name, and "Unknown if there is an error */
 
-  @FunctionTemplate(name = "get_short_service_name", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(name = "get_short_service_name",
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
 
   public static class ShortStringServiceNameLookup implements DrillSimpleFunc {
     @Param

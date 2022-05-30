@@ -8,9 +8,9 @@ IP Geo-Location is inherently imprecise and should never be relied on to get any
 * **`getCountryISOCode( <ip> )`**:  This function returns the country ISO code of the IP address, "Unknown" if the IP is unknown or invalid.
 * **`getCityName( <ip> )`**:  This function returns the city name of the IP address, "Unknown" if the IP is unknown or invalid.
 * **`getCityConfidence( <ip> )`**:  This function returns confidence score of the city name of the IP address.
-* **`getLatitude( <ip> )`**:  This function returns the latitude associated with the IP address.
-* **`getLongitude( <ip> )`**:  This function returns the longitude associated with the IP address.
-* **`getTimezone( <ip> )`**:  This function returns the timezone associated with the IP address.
+* **`getLatitudeFromIP( <ip> )`**:  This function returns the latitude associated with the IP address.
+* **`getLongitudeFromIP( <ip> )`**:  This function returns the longitude associated with the IP address.
+* **`getTimezoneFromIP( <ip> )`**:  This function returns the timezone associated with the IP address.
 * **`getAccuracyRadius( <ip> )`**:  This function returns the accuracy radius associated with the IP address, 0 if unknown.
 * **`getAverageIncome( <ip> )`**:  This function returns the average income of the region associated with the IP address, 0 if unknown.
 * **`getMetroCode( <ip> )`**:  This function returns the metro code of the region associated with the IP address, 0 if unknown.

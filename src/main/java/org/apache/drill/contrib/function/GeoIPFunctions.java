@@ -24,33 +24,31 @@ import org.apache.drill.exec.expr.annotations.FunctionTemplate;
 import org.apache.drill.exec.expr.annotations.Output;
 import org.apache.drill.exec.expr.annotations.Param;
 import org.apache.drill.exec.expr.annotations.Workspace;
+import org.apache.drill.exec.expr.holders.BigIntHolder;
 import org.apache.drill.exec.expr.holders.VarCharHolder;
 import org.apache.drill.exec.expr.holders.IntHolder;
 import org.apache.drill.exec.expr.holders.BitHolder;
 import org.apache.drill.exec.expr.holders.Float8Holder;
 import org.apache.drill.exec.expr.holders.VarBinaryHolder;
 
-
 import javax.inject.Inject;
 
+@SuppressWarnings("unused")
 public class GeoIPFunctions {
 
   private GeoIPFunctions() {
   }
 
-  @FunctionTemplate(name = "getCountryName", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
-
+  @FunctionTemplate(names = {"getCountryName", "get_country_name"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getCountryNameFunction implements DrillSimpleFunc {
-
     @Param
     VarCharHolder inputTextA;
-
     @Output
     VarCharHolder out;
-
     @Inject
     DrillBuf buffer;
-
     @Workspace
     com.maxmind.geoip2.DatabaseReader reader;
 
@@ -60,7 +58,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      String countryName = "Unknown";
+      String countryName;
 
       try {
         com.maxmind.geoip2.model.CountryResponse country = reader.country(java.net.InetAddress.getByName(ip));
@@ -81,7 +79,9 @@ public class GeoIPFunctions {
   }
 
 
-  @FunctionTemplate(name = "getCountryISOCode", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(name = "getCountryISOCode",
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getCountryISOFunction implements DrillSimpleFunc {
 
     @Param
@@ -102,7 +102,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      String countryName = "UNK";
+      String countryName;
 
       try {
         com.maxmind.geoip2.model.CountryResponse country = reader.country(java.net.InetAddress.getByName(ip));
@@ -122,7 +122,9 @@ public class GeoIPFunctions {
   }
 
 
-  @FunctionTemplate(name = "getCountryConfidence", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getCountryConfidence", "get_country_confidence"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getCountryConfidenceFunction implements DrillSimpleFunc {
 
     @Param
@@ -143,7 +145,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      int confidence = 0;
+      int confidence;
 
       try {
         com.maxmind.geoip2.model.CountryResponse country = reader.country(java.net.InetAddress.getByName(ip));
@@ -157,7 +159,9 @@ public class GeoIPFunctions {
   }
 
 
-  @FunctionTemplate(name = "getCityName", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getCityName", "get_city_name"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
 
   public static class getCityNameFunction implements DrillSimpleFunc {
 
@@ -179,7 +183,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      String cityName = "";
+      String cityName;
 
       try {
         com.maxmind.geoip2.model.CityResponse city = reader.city(java.net.InetAddress.getByName(ip));
@@ -197,7 +201,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "getCityConfidence", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getCityConfidence", "get_city_confidence"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
 
   public static class getCityConfidenceFunction implements DrillSimpleFunc {
 
@@ -219,7 +225,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      int cityConfidence = 0;
+      int cityConfidence;
 
       try {
         com.maxmind.geoip2.model.CityResponse city = reader.city(java.net.InetAddress.getByName(ip));
@@ -231,7 +237,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "getLatitude", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getLatitudeFromIP", "get_latitude_from_ip"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getLatitudeFunction implements DrillSimpleFunc {
 
     @Param
@@ -253,7 +261,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      double latitude = 0.0;
+      double latitude;
 
       try {
         com.maxmind.geoip2.model.CityResponse city = reader.city(java.net.InetAddress.getByName(ip));
@@ -269,7 +277,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "getLongitude", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getLongitudeFromIP", "get_longitude_from_ip"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getLongitudeFunction implements DrillSimpleFunc {
 
     @Param
@@ -291,7 +301,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      double longitude = 0.0;
+      double longitude;
 
       try {
         com.maxmind.geoip2.model.CityResponse city = reader.city(java.net.InetAddress.getByName(ip));
@@ -307,7 +317,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "getTimezone", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getTimezoneFromIP", "get_timezone_from_ip"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getTimezoneFunction implements DrillSimpleFunc {
 
     @Param
@@ -331,7 +343,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      String timezone = "Unknown";
+      String timezone;
 
       try {
         com.maxmind.geoip2.model.CityResponse city = reader.city(java.net.InetAddress.getByName(ip));
@@ -350,7 +362,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "getAccuracyRadius", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getAccuracyRadius", "get_accuracy_radius"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getAccuracyRadiusFunction implements DrillSimpleFunc {
 
     @Param
@@ -374,7 +388,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      int accuracyRadius = 0;
+      int accuracyRadius;
 
       try {
         com.maxmind.geoip2.model.CityResponse city = reader.city(java.net.InetAddress.getByName(ip));
@@ -388,7 +402,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "getAverageIncome", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getAverageIncome","get_average_income"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getAverageIncomeFunction implements DrillSimpleFunc {
 
     @Param
@@ -409,7 +425,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      int averageIncome = 0;
+      int averageIncome;
 
       try {
         com.maxmind.geoip2.model.CityResponse city = reader.city(java.net.InetAddress.getByName(ip));
@@ -423,7 +439,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "getMetroCode", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getMetroCode", "get_metro_code"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getMetroCodeFunction implements DrillSimpleFunc {
 
     @Param
@@ -444,7 +462,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      int metroCode = 0;
+      int metroCode;
 
       try {
         com.maxmind.geoip2.model.CityResponse city = reader.city(java.net.InetAddress.getByName(ip));
@@ -458,7 +476,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "getPopulationDensity", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getPopulationDensity", "get_population_density"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getPopulationDensityFunction implements DrillSimpleFunc {
 
     @Param
@@ -476,7 +496,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      int populationDensity = 0;
+      int populationDensity;
 
       try {
         com.maxmind.geoip2.model.CityResponse city = reader.city(java.net.InetAddress.getByName(ip));
@@ -490,7 +510,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(names = {"isEU", "isEuropeanUnion"}, scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"isEU", "isEuropeanUnion", "is_eu", "is_european_union"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class isEUFunction implements DrillSimpleFunc {
 
     @Param
@@ -508,7 +530,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      boolean isEU = false;
+      boolean isEU;
 
       try {
         com.maxmind.geoip2.model.CountryResponse country = reader.country(java.net.InetAddress.getByName(ip));
@@ -524,7 +546,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "getPostalCode", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getPostalCode", "get_postal_code"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getPostalCodeFunction implements DrillSimpleFunc {
 
     @Param
@@ -547,7 +571,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      String postalCode = "";
+      String postalCode;
 
       try {
         com.maxmind.geoip2.model.CityResponse city = reader.city(java.net.InetAddress.getByName(ip));
@@ -568,7 +592,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "getCoordPoint", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getCoordPoint", "get_coord_point"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getCoordPointFunction implements DrillSimpleFunc {
 
     @Param
@@ -591,8 +617,8 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      double longitude = 0.0;
-      double latitude = 0.0;
+      double longitude;
+      double latitude;
 
       try {
         com.maxmind.geoip2.model.CityResponse city = reader.city(java.net.InetAddress.getByName(ip));
@@ -615,14 +641,16 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "getASN", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getASN", "get_asn"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getASNFunction implements DrillSimpleFunc {
 
     @Param
     VarCharHolder inputTextA;
 
     @Output
-    IntHolder out;
+    BigIntHolder out;
 
     @Workspace
     com.maxmind.geoip2.DatabaseReader reader;
@@ -633,18 +661,20 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      int ASN = 0;
+      Long ASN;
 
       try {
         ASN = reader.asn(java.net.InetAddress.getByName(ip)).getAutonomousSystemNumber();
       } catch (Exception e) {
-        ASN = 0;
+        ASN = 0L;
       }
       out.value = ASN;
     }
   }
 
-  @FunctionTemplate(name = "getASNOrganization", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"getASNOrganization", "get_asn_organization"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class getASNOrgFunction implements DrillSimpleFunc {
 
     @Param
@@ -665,7 +695,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      String ASNorg = "Unknown";
+      String ASNorg;
 
       try {
         ASNorg = reader.asn(java.net.InetAddress.getByName(ip)).getAutonomousSystemOrganization();
@@ -679,7 +709,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "isAnonymous", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"isAnonymous", "is_anonymous"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class isAnonymousFunction implements DrillSimpleFunc {
 
     @Param
@@ -697,7 +729,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      boolean isAnonymous = false;
+      boolean isAnonymous;
 
       try {
         com.maxmind.geoip2.model.AnonymousIpResponse response = reader.anonymousIp(java.net.InetAddress.getByName(ip));
@@ -713,7 +745,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "isAnonymousVPN", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"isAnonymousVPN", "is_anonymous_vpn"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class isAnonymousVPNFunction implements DrillSimpleFunc {
 
     @Param
@@ -731,7 +765,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      boolean isAnonymousVPN = false;
+      boolean isAnonymousVPN;
 
       try {
         com.maxmind.geoip2.model.AnonymousIpResponse response = reader.anonymousIp(java.net.InetAddress.getByName(ip));
@@ -747,7 +781,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "isHostingProvider", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"isHostingProvider", "is_hosting_provider"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class isHostingProviderFunction implements DrillSimpleFunc {
 
     @Param
@@ -765,7 +801,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      boolean isHostingProvider = false;
+      boolean isHostingProvider;
 
       try {
         com.maxmind.geoip2.model.AnonymousIpResponse response = reader.anonymousIp(java.net.InetAddress.getByName(ip));
@@ -781,7 +817,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "isPublicProxy", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"isPublicProxy", "is_public_proxy"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class isPublicProxyFunction implements DrillSimpleFunc {
 
     @Param
@@ -799,7 +837,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      boolean isPublicProxy = false;
+      boolean isPublicProxy;
 
       try {
         com.maxmind.geoip2.model.AnonymousIpResponse response = reader.anonymousIp(java.net.InetAddress.getByName(ip));
@@ -815,7 +853,9 @@ public class GeoIPFunctions {
     }
   }
 
-  @FunctionTemplate(name = "isTORExitNode", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
+  @FunctionTemplate(names = {"isTORExitNode", "is_tor_exit_node"},
+    scope = FunctionTemplate.FunctionScope.SIMPLE,
+    nulls = FunctionTemplate.NullHandling.NULL_IF_NULL)
   public static class isTORFunction implements DrillSimpleFunc {
 
     @Param
@@ -833,7 +873,7 @@ public class GeoIPFunctions {
 
     public void eval() {
       String ip = org.apache.drill.exec.expr.fn.impl.StringFunctionHelpers.toStringFromUTF8(inputTextA.start, inputTextA.end, inputTextA.buffer);
-      boolean isTOR = false;
+      boolean isTOR;
 
       try {
         com.maxmind.geoip2.model.AnonymousIpResponse response = reader.anonymousIp(java.net.InetAddress.getByName(ip));
